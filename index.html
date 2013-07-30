@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+        <script src="js/calculator-controller.js"></script>
+    </head>
+    <body ng-controller="CalculatorController">
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="main-container">
+            <div class="pure-g-r">
+                <div class="pure-u-1 main-content">
+                    <h1>Capulator</h1>
+                    <hr/>
+                </div>
+                <div class="pure-u-3-4">
+                    <button class="pure-button pure-button-success" ng-click="addSemester()">Add a Semester</button>
+                    <div class="semester" ng-repeat="sem in data.records">
+                        <h2>AY20
+                            <span ng-show="!sem.editing">{{ sem.acad_year }} {{ sem.sem_name }}</span>
+                            <span ng-show="sem.editing">
+                                <select ng-model="sem.acad_year">
+                                    <option value="13/14">13/14</option>
+                                    <option value="12/13">12/13</option>
+                                    <option value="11/12">11/12</option>
+                                    <option value="10/11">10/11</option>
+                                    <option value="09/10">09/10</option>
+                                </select>
+                                <select ng-model="sem.sem_name">
+                                    <option value="Sem 1">Sem 1</option>
+                                    <option value="Sem 2">Sem 2</option>
+                                    <option value="Special Sem 1">Special Sem 1</option>
+                                    <option value="Special Sem 2">Special Sem 2</option>
+                                </select>
+                            </span>
+                            &nbsp;&nbsp;
+                            <a ng-click="resetAllEditing(); completeSync();">
+                                <i class="icon-ok" ng-show="sem.editing"></i>
+                            </a>
+                            <a ng-click="resetAllEditing(); sem.editing = true">
+                                <i class="icon-edit" ng-show="!sem.editing"></i>
+                            </a>
+                            <a ng-click="data.records.splice($index, 1)">
+                                <i class="icon-trash"></i>
+                            </a>
+                        </h2>
+                        <p class="semester-controls">
+                            <a ng-click="addModule(sem.modules)">Add a Module</a>
+                        </p>
+                        <hr/>
+                        <p ng-show="sem.modules.length == 0" class="semester-message">There are no modules added.</p>
+                        <table class="pure-table" width="100%" ng-show="sem.modules.length != 0">
+                            <thead>
+                                <tr>
+                                    <th>Module</th>
+                                    <th>Title</th>
+                                    <th style="width: 60px">Credits</th>
+                                    <th style="width: 60px">Grade</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="mod in sem.modules">
+                                    <td class="module-code">
+                                        <span ng-show="mod.editing">
+                                            <input placeholder="Module Code" class="module-code" type="text" ng-model="mod.code">
+                                        </span>
+                                        <span ng-show="!mod.editing">
+                                            {{ {'true': mod.code, 'false': '&lt;Module Code&gt;'}[mod.code.length != 0] }}
+                                        </span>
+                                    </td>
+                                    <td class="module-title">
+                                        <span ng-show="mod.editing">
+                                            <input placeholder="Module Title" class="module-title" type="text" ng-model="mod.title">
+                                        </span>
+                                        <span ng-show="!mod.editing">{{ {'true': mod.title, 'false': '&lt;Module Title&gt;'}[mod.title.length != 0] }}</span>
+                                    </td>
+                                    <td>
+                                        <span ng-show="mod.editing">
+                                            <select ng-model="mod.credits">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                        </span>
+                                        <span ng-show="!mod.editing">{{ mod.credits }}</span>
+                                    </td>
+                                    <td>
+                                        <span ng-show="mod.editing">
+                                            <select ng-model="mod.grade" ng-on-blur="alert('hi')">
+                                                <option value="A+">A+</option>
+                                                <option value="A">A</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B">B</option>
+                                                <option value="B-">B-</option>
+                                                <option value="C+">C+</option>
+                                                <option value="C">C</option>
+                                                <option value="D+">D+</option>
+                                                <option value="D">D</option>
+                                                <option value="F">F</option>
+                                                <option value="S">S</option>
+                                                <option value="U">U</option>
+                                                <option value="CS">CS</option>
+                                                <option value="CU">CU</option>
+                                            </select>
+                                        </span>
+                                        <span ng-show="!mod.editing">{{ mod.grade }}</span>
+                                    </td>
+                                    <td>
+                                        <i class="icon-ok icon-large" ng-show="mod.editing" ng-click="resetAllEditing(); completeSync();"></i>
+                                        <i class="icon-edit icon-large" ng-show="!mod.editing" ng-click="resetAllEditing(); mod.editing = true"></i>
+                                        <i class="icon-trash icon-large" ng-click="sem.modules.splice($index, 1)"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p ng-show="sem.modules.length != 0">
+                            Semester Credits: <strong class="orange">{{ getCreditsForSem(sem, false) }}</strong><br/>
+                            Semester Graded Credits: <strong class="orange">{{ getCreditsForSem(sem, true) }}</strong><br/>
+                            Semestral Average Points: <strong class="orange">{{ getSAPForSem(sem) }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="pure-u-1-4">
+                    <div class="summary">
+                        <h2>Summary</h2>
+                        <p>Cumulative Credits:</p>
+                        <h3>{{ getTotalCredits(data.records) }}</h3>
+                        <p>Cumulative Average Points:</p>
+                        <h3>{{ getCAP(data.records) }}</h3>
+                        <p>Historical Credits</p> 
+                        <input ng-model="data.historical_credits" type="text">
+                        <p>Historical Grade Points</p>
+                        <input ng-model="data.historical_grade_points" type="text">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pure-g footer" ng-show="!loading && !error" style="display:none">
+            <div class="pure-u-1">
+                <hr/>
+                <p class="copyright">&copy; Capulator 2013</p>
+                <p class="credits">Built by <strong>Tay Yang Shun</strong>.</p>
+                <p>
+                    <iframe src="http://ghbtns.com/github-btn.html?user=yangshun&repo=capulator&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20" style="margin-left:30px;"></iframe>
+                    <iframe src="http://ghbtns.com/github-btn.html?user=yangshun&repo=capulator&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+                </p>
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>

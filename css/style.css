@@ -1,0 +1,41 @@
+.main-container { width: 960px; margin: 0 auto; padding: 20px; }
+@media all and (max-width: 767px) { .main-container { width: auto; margin: 0; } }
+body, input, button { font-family: 'Open Sans', sans-serif; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Arvo', sans-serif; color: #666; }
+h1 { font-size: 48px; }
+h3 { font-size: 36px; }
+a { color: orange; text-decoration: none; cursor: pointer; }
+a:hover { color: #ccc; }
+input { border: none; border-bottom: 1px solid #ccc; outline: none; }
+.orange { color: orange; }
+
+.footer { text-align: center; padding-top: 25px; padding-bottom: 15px; max-width: 960px; margin: 0 auto;}
+.footer p {width: 100%;}
+.footer .copyright { font-size: 18px; }
+.footer .credits { font-size: 15px; }
+.footer .nusmods { font-size: 13px; }
+.fb-like { margin: 0 auto; }
+.pure-button-primary { background-color: #00577b; }
+.pure-button-primary:hover {
+    background-color: #ccc;
+}
+
+.semester { margin-bottom: 80px; }
+.semester p { text-align: right; color: #999;}
+.semester p.semester-message { text-align: center; font-weight: 700; }
+.semester h2 [class^="icon-"], .semester h2 [class*=" icon-"]  { display: none; }
+.semester:hover h2 [class^="icon-"], .semester:hover h2 [class*=" icon-"]  { display: initial; }
+
+/* Table */
+[class^="icon-"], [class*=" icon-"] { cursor: pointer; }
+td.module-code { width: 120px; }
+td.module-title { width: 280px; }
+tr [class^="icon-"], tr [class*=" icon-"]  { display: none; }
+tr:hover [class^="icon-"], tr:hover [class*=" icon-"] { display: initial; }
+tr [class^="icon-"]:hover, tr [class*=" icon-"]:hover { color: orange; }
+input.module-code { width: 100px; }
+input.module-title { width: 260px; }
+
+/* Summary Column */
+.summary { padding-left: 20px; }
+.summary h3 { margin-top: 0; color: orange; text-align: right; }
