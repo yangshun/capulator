@@ -81,7 +81,8 @@ function CalculatorController ($scope, $http) {
 
     $scope.getCAP = function(records) {
         var total_credits = parseInt($scope.data.historical_credits);
-        var total_grade_points = parseInt(parseFloat($scope.data.historical_credits) * parseFloat($scope.data.historical_grade_points));
+        var total_grade_points = parseFloat(parseInt($scope.data.historical_credits) * parseFloat($scope.data.historical_grade_points));
+        console.log(total_grade_points);
         for (var i = 0; i < records.length; i++) {
             total_credits += $scope.getCreditsForSem(records[i], true);
             total_grade_points += getGradePointsForSem(records[i]);

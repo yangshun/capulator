@@ -8,6 +8,7 @@ a { color: orange; text-decoration: none; cursor: pointer; }
 a:hover { color: #ccc; }
 input { border: none; border-bottom: 1px solid #ccc; outline: none; }
 .orange { color: orange; }
+button { font-weight: 700; }
 
 .footer { text-align: center; padding-top: 25px; padding-bottom: 15px; max-width: 960px; margin: 0 auto;}
 .footer p {width: 100%;}

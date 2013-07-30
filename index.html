@@ -82,7 +82,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="mod in sem.modules">
-                                    <td class="module-code">
+                                    <td class="module-code" ng-click="resetAllEditing(); mod.editing = true">
                                         <span ng-show="mod.editing">
                                             <input placeholder="Module Code" class="module-code" type="text" ng-model="mod.code">
                                         </span>
@@ -90,13 +90,13 @@
                                             {{ {'true': mod.code, 'false': '&lt;Module Code&gt;'}[mod.code.length != 0] }}
                                         </span>
                                     </td>
-                                    <td class="module-title">
+                                    <td class="module-title" ng-click="resetAllEditing(); mod.editing = true">
                                         <span ng-show="mod.editing">
                                             <input placeholder="Module Title" class="module-title" type="text" ng-model="mod.title">
                                         </span>
                                         <span ng-show="!mod.editing">{{ {'true': mod.title, 'false': '&lt;Module Title&gt;'}[mod.title.length != 0] }}</span>
                                     </td>
-                                    <td>
+                                    <td ng-click="resetAllEditing(); mod.editing = true">
                                         <span ng-show="mod.editing">
                                             <select ng-model="mod.credits">
                                                 <option value="1">1</option>
@@ -115,7 +115,7 @@
                                         </span>
                                         <span ng-show="!mod.editing">{{ mod.credits }}</span>
                                     </td>
-                                    <td>
+                                    <td ng-click="resetAllEditing(); mod.editing = true">
                                         <span ng-show="mod.editing">
                                             <select ng-model="mod.grade" ng-on-blur="alert('hi')">
                                                 <option value="A+">A+</option>
