@@ -72,12 +72,12 @@ function CalculatorController ($scope, $http) {
     };
 
     $scope.getTotalCredits = function(records) {
-        var total_credits = parseInt($scope.data.historical_grade_points);
+        var total_credits = parseInt($scope.data.historical_credits);
         for (var i = 0; i < records.length; i++) {
             total_credits += $scope.getCreditsForSem(records[i], false);
         }
         return total_credits;
-    }
+    };
 
     $scope.getCAP = function(records) {
         var total_credits = parseInt($scope.data.historical_credits);
