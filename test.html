@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Capulator</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,700' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <div class="main-container">
+            <div class="pure-g-r">
+                <div class="pure-u-1 main-content">
+                    <h1>Modules Taken</h1>
+                    <a id="login-link" href=""/> Login</a>
+                    <hr/>
+                    <div class="pure-u-1" id="result">
+                        <span id="loading-message">Loading modules for <span id="user-id"></span>. Please be patient...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+        <script>
+
+            var LOGIN_URL = 'https://ivle.nus.edu.sg/api/login/?apikey=O8ieVUFb72IU7feHcKmO3&url=' + window.location.href.split('?')[0];
+            $('#login-link').attr('href', LOGIN_URL);
+            $('#loading-message').hide();
+            var APIKEY = 'O8ieVUFb72IU7feHcKmO3';
+            var TOKEN = window.location.href.split('?token=')[1];
+            var USER_ID_URL = 'https://ivle.nus.edu.sg/api/Lapi.svc/UserID_Get';
+            var MODULES_TAKEN_URL = 'https://ivle.nus.edu.sg/api/Lapi.svc/Modules_Taken';
+            if (TOKEN) {
+               
+                $.ajax({
+                    url: USER_ID_URL,
+                    dataType: 'jsonp',
+                    data: {
+                        'APIKey': APIKEY,
+                        'TOKEN': TOKEN
+                    }, 
+                    success: function(res) {
+                            console.log(res);
+                            $('#user-id').html(res);
+                            $('#loading-message').show();
+                            var user_id = res;
+                            $.ajax({
+                                url: MODULES_TAKEN_URL,
+                                dataType: 'jsonp',
+                                data: {
+                                    'APIKey': APIKEY,
+                                    'AuthToken': TOKEN,
+                                    'StudentID': user_id,
+                                    'jsonIndent': 1
+                                }, 
+                                success: function(res) {
+                                        var op = JSON.stringify(res, undefined, 2);
+                                        console.log(op);
+                                        $('#result').html('<pre>' + op + '</pre>');
+                                    }
+                            });
+                        }
+                });
+            }
+        </script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src='//www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
