@@ -37,8 +37,7 @@
                 <div class="pure-u-3-4">
                     <button class="pure-button pure-button-success" ng-click="addSemester()">Add a Semester</button>
                     <div class="semester" ng-repeat="sem in data.records">
-                        <h2>AY20
-                            <span ng-show="!sem.editing">{{ sem.acad_year }} {{ sem.sem_name }}</span>
+                        <h2>AY20<span ng-show="!sem.editing">{{sem.acad_year}} {{ sem.sem_name }}</span>
                             <span ng-show="sem.editing">
                                 <select ng-model="sem.acad_year">
                                     <option value="13/14">13/14</option>
